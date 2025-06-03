@@ -1,49 +1,19 @@
-function formatNumberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
-function formatTimeAgo(updatedAtString) {
-    const updatedAt = new Date(updatedAtString); // API에서 받은 시간을 Date 객체로 변환
-    const now = new Date(); // 현재 시간
-
-    const diffMilliseconds = now.getTime() - updatedAt.getTime(); // 밀리초 단위의 차이
-
-    const seconds = Math.floor(diffMilliseconds / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
-    const days = Math.floor(hours / 24);
-    const months = Math.floor(days / 30); // 대략적인 월 계산
-    const years = Math.floor(days / 365); // 대략적인 연도 계산
-
-    if (seconds < 60) {
-        return `${seconds}초전`;
-    } else if (minutes < 60) {
-        return `${minutes}분전`;
-    } else if (hours < 24) {
-        return `${hours}시간전`;
-    } else if (days < 30) {
-        return `${days}일전`;
-    } else if (months < 12) {
-        return `${months}개월전`;
-    } else {
-        return `${years}년전`;
-    }
-}
-
 // Function to create an item card HTML
-function createItemCard(item, notificationType, basePrice) {
+function createItemCard(item, itemType, basePrice) {
     const quantityHtml = item.quantity ? `<span class="item-quantity text-gray-300 text-sm ml-1">[${item.itemOption.each}개]</span>` : '';
     const minQuantityHtml = item.minQuantity ? `<span class="item-min-quantity text-gray-400 text-xs ml-1">[최소 ${item.itemOption.price}개]</span>` : '';
 
     let highlightClass = '';
     const itemPrice = item.itemPrice;
 
-    if (notificationType === 'buy') {
+    const currentNotificationType = document.getElementById('notification-type').value;
+
+    if (itemType === 'buy' && currentNotificationType === 'buy') {
         // Highlight if the item price is less than or equal to the base price for 'buy' notifications
         if (itemPrice >= basePrice) {
             highlightClass = 'highlight-buy';
         }
-    } else if (notificationType === 'sell') {
+    } else if (itemType === 'sell' && currentNotificationType === 'sell') {
         // Highlight if the item price is greater than or equal to the base price for 'sell' notifications
         if (itemPrice <= basePrice) {
             highlightClass = 'highlight-sell';
@@ -66,7 +36,7 @@ function createItemCard(item, notificationType, basePrice) {
                 <span class="currency text-gray-200 ml-1">메소</span>
             </div>
             <div class="tags flex gap-1 flex-wrap">
-                <span class="tag tag-type text-white px-2 py-1 rounded text-xs">${item.comment}</span>
+                <span class="tag tag-type text-white px-2 py-1 rounded text-gray-200">${item.comment}</span>
             </div>
             <div class="item-actions flex justify-end items-center mt-auto">
                 <span class="time-ago text-gray-400 text-xs mr-2">${formatTimeAgo(item.created_at)}</span>
@@ -80,7 +50,6 @@ function createItemCard(item, notificationType, basePrice) {
 async function fetchAndRenderItems() {
     const sellItemList = document.getElementById('sell-item-list');
     const buyItemList = document.getElementById('buy-item-list');
-    const notificationType = document.getElementById('notification-type').value;
     const basePrice = parseInt(document.getElementById('base-price').value, 10);
 
     // Show loading indicators
@@ -103,7 +72,7 @@ async function fetchAndRenderItems() {
         // Render sell items
         if (sell && sell.length > 0) {
             sell.forEach(item => {
-                sellItemList.innerHTML += createItemCard(item, notificationType, basePrice);
+                sellItemList.innerHTML += createItemCard(item, 'sell', basePrice);
             });
         } else {
             sellItemList.innerHTML = '<p class="text-center text-gray-400">판매 아이템이 없습니다.</p>';
@@ -112,7 +81,7 @@ async function fetchAndRenderItems() {
         // Render buy items
         if (buy && buy.length > 0) {
             buy.forEach(item => {
-                buyItemList.innerHTML += createItemCard(item, notificationType, basePrice);
+                buyItemList.innerHTML += createItemCard(item, 'buy', basePrice);
             });
         } else {
             buyItemList.innerHTML = '<p class="text-center text-gray-400">구매 아이템이 없습니다.</p>';

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="na.AuctionMonitor.AuctionMonitorApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-06-02T13:28:41.597Z" hostname="DESKTOP-I8SAUK5" time="0.429">
+  <properties/>
+  <testcase name="contextLoads()" classname="na.AuctionMonitor.AuctionMonitorApplicationTests" time="0.429"/>
+  <system-out><![CDATA[22:28:40.395 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [na.AuctionMonitor.AuctionMonitorApplicationTests]: AuctionMonitorApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+22:28:40.467 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration na.AuctionMonitor.AuctionMonitorApplication for test class na.AuctionMonitor.AuctionMonitorApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.0)
+
+2025-06-02T22:28:40.730+09:00  INFO 23824 --- [AuctionMonitor] [    Test worker] n.A.AuctionMonitorApplicationTests       : Starting AuctionMonitorApplicationTests using Java 21.0.1 with PID 23824 (started by Na in C:\AuctionMonitor)
+2025-06-02T22:28:40.731+09:00  INFO 23824 --- [AuctionMonitor] [    Test worker] n.A.AuctionMonitorApplicationTests       : No active profile set, falling back to 1 default profile: "default"
+2025-06-02T22:28:41.373+09:00  INFO 23824 --- [AuctionMonitor] [    Test worker] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2025-06-02T22:28:41.492+09:00  WARN 23824 --- [AuctionMonitor] [    Test worker] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2025-06-02T22:28:41.572+09:00  INFO 23824 --- [AuctionMonitor] [    Test worker] n.A.AuctionMonitorApplicationTests       : Started AuctionMonitorApplicationTests in 1.007 seconds (process running for 1.69)
+]]></system-out>
+  <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\Na\.gradle\caches\modules-2\files-2.1\net.bytebuddy\byte-buddy-agent\1.17.5\58f9507f5f28d1d3e7adfb4ec2fe37c29d332c9b\byte-buddy-agent-1.17.5.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>
