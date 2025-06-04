@@ -29,3 +29,31 @@ function formatTimeAgo(updatedAtString) {
         return `${years}년전`;
     }
 }
+
+function copyToClipboard(text) {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                console.log('Copied:', text);
+            })
+            .catch(err => {
+                console.error('Failed to copy:', err);
+            });
+    } else {
+        // Fallback for older browsers
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+    }
+
+    const copyMessageModal = document.getElementById('copy-message-modal');
+    copyMessageModal.classList.remove('hidden'); // Make it visible
+
+    // Hide the message after 2 seconds
+    setTimeout(() => {
+        copyMessageModal.classList.add('hidden'); // Hide it again
+    }, 1000);
+}

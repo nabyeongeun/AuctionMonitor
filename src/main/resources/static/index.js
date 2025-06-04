@@ -36,7 +36,7 @@ function createItemCard(item, itemType, basePrice) {
                 <span class="currency text-gray-200 ml-1">메소</span>
             </div>
             <div class="tags flex gap-1 flex-wrap">
-                <span class="tag tag-type text-white px-2 py-1 rounded text-gray-200">${item.comment}</span>
+                <span class="tag tag-type text-white px-2 py-1 rounded text-gray-200 copy-comment" onclick="copyToClipboard('${item.comment}')">${item.comment}</span>
             </div>
             <div class="item-actions flex justify-end items-center mt-auto">
                 <span class="time-ago text-gray-400 text-xs mr-2">${formatTimeAgo(item.created_at)}</span>
