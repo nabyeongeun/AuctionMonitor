@@ -50,7 +50,15 @@ function createItemCard(item, itemType, basePrice) {
 async function fetchAndRenderItems() {
     const sellItemList = document.getElementById('sell-item-list');
     const buyItemList = document.getElementById('buy-item-list');
-    const basePrice = parseInt(document.getElementById('base-price').value, 10);
+    
+    let basePrice;
+    const savedBasePrice = localStorage.getItem('base-price');
+    if (savedBasePrice) {
+        basePrice = savedBasePrice;
+        document.getElementById('base-price').value = savedBasePrice;
+    } else {
+        basePrice = document.getElementById('base-price');
+    }
 
     // Show loading indicators
     sellItemList.innerHTML = '<p class="text-center text-gray-400">데이터 로딩 중...</p>';
@@ -61,7 +69,7 @@ async function fetchAndRenderItems() {
         const data = await response.json();
 
         const sell = data.filter(item => item !== null && item !== undefined && item.tradeType === 'sell');
-        const buy = data.filter(item => item !== null && item !== undefined && item.tradeType === 'buy');
+        const buy  = data.filter(item => item !== null && item !== undefined && item.tradeType === 'buy');
         console.log(sell);
         console.log(buy);
 
@@ -116,8 +124,19 @@ updateRefreshInterval();
 // Listen for changes on the refresh interval input
 document.getElementById('refresh-interval').addEventListener('change', updateRefreshInterval);
 
+// base-price 입력 필드에 엔터 키 이벤트 리스너 추가
+document.getElementById('base-price').addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        document.getElementById('apply-settings-btn').click();
+    }
+});
+
 // Add event listener for the new "적용" button
 document.getElementById('apply-settings-btn').addEventListener('click', () => {
+    // base-price 값을 localStorage에 저장
+    localStorage.setItem('base-price', document.getElementById('base-price').value);
+    
     fetchAndRenderItems(); // Re-fetch data immediately
     updateRefreshInterval(); // Also update the interval if it was changed
 
