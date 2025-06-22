@@ -40,13 +40,12 @@ function createItemCard(item, itemType, basePrice) {
             </div>
             <div class="item-actions flex justify-end items-center mt-auto">
                 <span class="time-ago text-gray-400 text-xs mr-2">${formatTimeAgo(item.created_at)}</span>
-                <a href="#" class="btn-detail bg-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded text-sm transition-colors duration-200">자세히보기</a>
+                <a href="#" class="btn-detail bg-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded text-sm transition-colors duration-200" onclick="block('${item.traderDiscordInfo.id}')">차단</a>
             </div>
         </div>
     `;
 }
 
-// Function to fetch data and render items
 async function fetchAndRenderItems() {
     const sellItemList = document.getElementById('sell-item-list');
     const buyItemList = document.getElementById('buy-item-list');
@@ -99,6 +98,15 @@ async function fetchAndRenderItems() {
         console.error('데이터를 불러오는 중 오류 발생:', error);
         sellItemList.innerHTML = '<p class="text-center text-red-400">데이터 로딩 실패.</p>';
         buyItemList.innerHTML = '<p class="text-center text-red-400">데이터 로딩 실패.</p>';
+    }
+}
+
+async function block(userId) {
+
+    if (confirm('차단하시겠습니까?')) {
+        await fetch('http://localhost:8080/api/addBlacklist/' + userId);
+        openBlockMsg();
+        fetchAndRenderItems(); // Re-fetch data immediately
     }
 }
 

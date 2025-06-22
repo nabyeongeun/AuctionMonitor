@@ -57,3 +57,13 @@ function copyToClipboard(text) {
         copyMessageModal.classList.add('hidden'); // Hide it again
     }, 1000);
 }
+
+function openBlockMsg() {
+    const blockMessageModal = document.getElementById('block-message-modal');
+    blockMessageModal.classList.remove('hidden'); // Make it visible
+
+    // Hide the message after 2 seconds
+    setTimeout(() => {
+        blockMessageModal.classList.add('hidden'); // Hide it again
+    }, 1000);
+}
