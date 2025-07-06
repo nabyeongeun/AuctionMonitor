@@ -40,7 +40,6 @@ function createItemCard(item, itemType, basePrice) {
             </div>
             <div class="item-actions flex justify-end items-center mt-auto">
                 <span class="time-ago text-gray-400 text-xs mr-2">${formatTimeAgo(item.created_at)}</span>
-                <a href="#" class="btn-detail bg-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded text-sm transition-colors duration-200" onclick="block('${item.traderDiscordInfo.id}')">차단</a>
             </div>
         </div>
     `;
@@ -101,12 +100,15 @@ async function fetchAndRenderItems() {
     }
 }
 
-async function block(userId) {
+async function block() {
+
+    const blockTarget = document.getElementById("block-username");
 
     if (confirm('차단하시겠습니까?')) {
-        await fetch('http://localhost:8080/api/addBlacklist/' + userId);
+        await fetch('http://localhost:8080/api/addBlacklist/' + blockTarget.value);
         openBlockMsg();
         fetchAndRenderItems(); // Re-fetch data immediately
+        blockTarget.value = "";
     }
 }
 
@@ -137,6 +139,13 @@ document.getElementById('base-price').addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
         event.preventDefault();
         document.getElementById('apply-settings-btn').click();
+    }
+});
+
+document.getElementById('block-username').addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        document.getElementById('block-btn').click();
     }
 });
 

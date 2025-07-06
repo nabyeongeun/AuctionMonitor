@@ -70,13 +70,18 @@ public class MainService {
 
             Map<String,Object> item = body.get(i);
 
-            Map<String,Object> traderDiscordInfo = (Map<String,Object>) item.get("traderDiscordInfo");
-            String id = (String) traderDiscordInfo.get("id");
+            String comment = (String) item.get("comment");
 
-            if(blacklist.contains(id)) {
-                body.remove(i);
-                i--;
-                size--;
+            if(comment == null || comment.isEmpty())
+                continue;
+
+            for(String keyword : blacklist) {
+                if(comment.contains(keyword)) {
+                    body.remove(i);
+                    i--;
+                    size--;
+                    break;
+                }
             }
         }
 
