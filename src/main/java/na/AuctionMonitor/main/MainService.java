@@ -76,6 +76,10 @@ public class MainService {
                 continue;
 
             for(String keyword : blacklist) {
+
+                if(keyword.isEmpty())
+                    continue;
+
                 if(comment.contains(keyword)) {
                     body.remove(i);
                     i--;
