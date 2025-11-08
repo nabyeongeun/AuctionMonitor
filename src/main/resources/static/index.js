@@ -63,7 +63,7 @@ async function fetchAndRenderItems() {
     buyItemList.innerHTML = '<p class="text-center text-gray-400">데이터 로딩 중...</p>';
 
     try {
-        const response = await fetch('http://localhost:8080/api/request/' + document.getElementById("item-code").value);
+        const response = await fetch('/api/request/' + document.getElementById("item-code").value);
         const data = await response.json();
 
         const sell = data.filter(item => item !== null && item !== undefined && item.tradeType === 'sell');
@@ -105,7 +105,7 @@ async function block() {
     const blockTarget = document.getElementById("block-username");
 
     if (confirm('차단하시겠습니까?')) {
-        await fetch('http://localhost:8080/api/addBlacklist/' + blockTarget.value);
+        await fetch('/api/addBlacklist/' + blockTarget.value);
         openBlockMsg();
         fetchAndRenderItems(); // Re-fetch data immediately
         blockTarget.value = "";
