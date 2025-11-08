@@ -32,6 +32,8 @@ function createItemCard(item, itemType, basePrice) {
                 </div>
             </div>
             <div class="item-details flex items-baseline">
+                <span class="currency text-gray-200 ml-1">[${item.tradeOption.each}개]
+                <span th:text="${item.tradeOption.minEach > 1 ? '[최소' + item.tradeOption.minEach + '개]' : ''}"></span>
                 <span class="price price-color text-2xl font-bold">${formatNumberWithCommas(item.itemPrice)}</span>
                 <span class="currency text-gray-200 ml-1">메소</span>
             </div>
@@ -48,14 +50,28 @@ function createItemCard(item, itemType, basePrice) {
 async function fetchAndRenderItems() {
     const sellItemList = document.getElementById('sell-item-list');
     const buyItemList = document.getElementById('buy-item-list');
-    
+
+    let itemCode;
+    const savedItemCode = localStorage.getItem('item-code');
+    if (savedItemCode) {
+        itemCode = savedItemCode;
+        document.getElementById('item-code').value = savedItemCode;
+    } else {
+        itemCode = document.getElementById('item-code').value;
+    }
+
+    if(localStorage.getItem('refresh-interval'))
+        document.getElementById('refresh-interval').value = localStorage.getItem('refresh-interval');
+    if(localStorage.getItem('notification-type'))
+        document.getElementById('notification-type').value = localStorage.getItem('notification-type');
+
     let basePrice;
     const savedBasePrice = localStorage.getItem('base-price');
     if (savedBasePrice) {
         basePrice = savedBasePrice;
         document.getElementById('base-price').value = savedBasePrice;
     } else {
-        basePrice = document.getElementById('base-price');
+        basePrice = document.getElementById('base-price').value;
     }
 
     // Show loading indicators
@@ -63,7 +79,8 @@ async function fetchAndRenderItems() {
     buyItemList.innerHTML = '<p class="text-center text-gray-400">데이터 로딩 중...</p>';
 
     try {
-        const response = await fetch('/api/request/' + document.getElementById("item-code").value);
+        console.log(itemCode);
+        const response = await fetch('/api/request/' + itemCode);
         const data = await response.json();
 
         const sell = data.filter(item => item !== null && item !== undefined && item.tradeType === 'sell');
@@ -152,7 +169,10 @@ document.getElementById('block-username').addEventListener('keypress', (event) =
 // Add event listener for the new "적용" button
 document.getElementById('apply-settings-btn').addEventListener('click', () => {
     // base-price 값을 localStorage에 저장
-    localStorage.setItem('base-price', document.getElementById('base-price').value);
+    localStorage.setItem('item-code'         , document.getElementById('item-code').value);
+    localStorage.setItem('refresh-interval'  , document.getElementById('refresh-interval').value);
+    localStorage.setItem('notification-type' , document.getElementById('notification-type').value);
+    localStorage.setItem('base-price'        , document.getElementById('base-price').value);
     
     fetchAndRenderItems(); // Re-fetch data immediately
     updateRefreshInterval(); // Also update the interval if it was changed
